@@ -23,7 +23,6 @@ function setup() {
   angleMode(DEGREES);
 
   treeGraphics = createGraphics(500, 500);
-  //treeGraphics.background(77, 145, 92);
 }
 
 function draw() {
@@ -39,16 +38,15 @@ function draw() {
   let locY = mouseY - height / 2;
   pointLight(pointLightColor.rPL, pointLightColor.rPL, pointLightColor.rPL, locX, height, 2 * height);
 
+  // rotate imported 3D models
   rotateZ(180);
 
-  ambientMaterial(100, 0, 0);
+  ambientMaterial(255, 255, 255);
 
+  // draw 3D objects
   trees();
-  
-  changeTreeColor();
 
-  //treeGraphics.background(77, 145, 92);
-  //treeGraphics.background(map(mouseX, 0, width, 63, 208), map(mouseY, 0, height, 70, 234), map(mouseY, 0, height, 57, 185));
+  changeTreeColor();
 }
 
 function windowResized() {
@@ -56,17 +54,18 @@ function windowResized() {
 }
 
 function trees() {
+  texture(treeGraphics);
 
   noStroke();
 
+  // ground
   push();
   rotateX(90);
   translate(0, 0, 100);
-  plane(1500, 1500);
+  plane(2600, 1500);
   pop();
 
   // third tree
-  texture(treeGraphics);
   model(tree);
 
   push();
@@ -99,9 +98,9 @@ function showLightButton() {
 
 function changeDayNight() {
   if (bgColor.rB == 0) {
-    bgColor.rB = 53;
-    bgColor.gB = 91;
-    bgColor.bB = 145;
+    bgColor.rB = 51;
+    bgColor.gB = 102;
+    bgColor.bB = 153;
 
     pointLightColor.rPL = 255;
     pointLightColor.gPL = 255;
@@ -113,9 +112,9 @@ function changeDayNight() {
     bgColor.gB = 0;
     bgColor.bB = 5;
 
-    pointLightColor.rPL = 100;
-    pointLightColor.gPL = 100;
-    pointLightColor.bPL = 100;
+    pointLightColor.rPL = 120;
+    pointLightColor.gPL = 120;
+    pointLightColor.bPL = 120;
 
     buttonName = 'Day';
   }
@@ -123,8 +122,4 @@ function changeDayNight() {
 
 function changeTreeColor() {
   treeGraphics.background(map(mouseX, 0, width, 63, 208), map(mouseY, 0, height, 70, 234), map(mouseY, 0, height, 57, 185));
-  
-  //treeGraphics.line(mouseX, mouseY, pmouseX, pmouseY);
-
-  //treeGraphics.rect(0, 0, 300, 200);
 }
