@@ -1,4 +1,5 @@
 let tree;
+let cloud;
 let treeGraphics;
 let buttonName = 'Day';
 
@@ -16,6 +17,7 @@ let pointLightColor = {
 
 function preload() {
   tree = loadModel("assets/lowpolytree.obj", true);
+  cloud = loadImage("assets/cloud.png");
 }
 
 function setup() {
@@ -23,11 +25,11 @@ function setup() {
   angleMode(DEGREES);
 
   treeGraphics = createGraphics(500, 500);
+
+  skyGraphics = createGraphics(600, 600);
 }
 
 function draw() {
-  background(bgColor.rB, bgColor.gB, bgColor.bB);
-
   showLightButton();
 
   //orbitControl();
@@ -35,7 +37,6 @@ function draw() {
   camera(0, 0, 500, 0, 0, 0, 0, 1, 0);
 
   let locX = mouseX - width / 2;
-  let locY = mouseY - height / 2;
   pointLight(pointLightColor.rPL, pointLightColor.rPL, pointLightColor.rPL, locX, height, 2 * height);
 
   // rotate imported 3D models
@@ -58,9 +59,19 @@ function trees() {
 
   noStroke();
 
+  // sky
+  push();
+  translate(0, 0, -120);
+
+  skyGraphicsSettings();
+  texture(skyGraphics);
+
+  plane(2600, 1500);
+  pop();
+
   // ground
   push();
-  rotateX(90);
+  rotateX(100);
   translate(0, 0, 100);
   plane(2600, 1500);
   pop();
@@ -98,9 +109,9 @@ function showLightButton() {
 
 function changeDayNight() {
   if (bgColor.rB == 0) {
-    bgColor.rB = 51;
-    bgColor.gB = 102;
-    bgColor.bB = 153;
+    bgColor.rB = 25;
+    bgColor.gB = 124;
+    bgColor.bB = 211;
 
     pointLightColor.rPL = 255;
     pointLightColor.gPL = 255;
@@ -122,4 +133,17 @@ function changeDayNight() {
 
 function changeTreeColor() {
   treeGraphics.background(map(mouseX, 0, width, 63, 208), map(mouseY, 0, height, 70, 234), map(mouseY, 0, height, 57, 185));
+}
+
+// skyGraphics setting
+function skyGraphicsSettings() {
+  skyGraphics.noStroke();
+  skyGraphics.background(bgColor.rB, bgColor.gB, bgColor.bB);
+  skyGraphics.imageMode(CENTER);
+
+  let xBigCloud = map(mouseX, 0, width, width / 6, 208);
+  let xSmallCloud = map(mouseX, 0, width, width / 3.5, (width / 3.5) - 10);
+  
+  skyGraphics.image(cloud, xBigCloud, (height / 2) + 40, cloud.width / 35, cloud.height / 30);
+  skyGraphics.image(cloud, xSmallCloud, (height / 2.7) + 100, cloud.width / 60, cloud.height / 55);
 }
